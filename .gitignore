@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.vercel/
+.env
+.env.*
+!.env.example
+*.local
+*.log
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+.playwright-cli/
+test-results/
+playwright-report/
+
+output/

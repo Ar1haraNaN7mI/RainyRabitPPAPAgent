@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="雨兔智能审批系统">
+  <rect width="64" height="64" rx="16" fill="#071321"/>
+  <path d="M18 32h28M32 18v28" stroke="#2f8cff" stroke-width="3"/>
+  <path d="M22 22l20 20M42 22L22 42" stroke="#eef7ff" stroke-width="3"/>
+</svg>

@@ -51,7 +51,7 @@ try {
 const heading = markup.match(/<h1\b[^>]*id="hero-title"[^>]*>([\s\S]*?)<\/h1>/)?.[1].replace(/<[^>]*>/g, '');
 assert.ok(heading?.includes('PPAP') && heading.length > 10, 'Prerendered hero heading is missing.');
 assert.ok(!markup.includes('\uFFFD'), 'Prerendered page contains invalid Unicode characters.');
-for (const anchor of ['delivery', 'method', 'boundary', 'contact']) {
+for (const anchor of ['scenarios', 'delivery', 'method', 'boundary', 'contact']) {
   assert.ok(markup.includes(`id="${anchor}"`), `Prerendered page is missing #${anchor}.`);
 }
 assert.match(markup, /<main\b/, 'Prerendered main content is missing.');

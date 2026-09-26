@@ -30,9 +30,32 @@ import SpotlightCard from "./components/react-bits/SpotlightCard";
 
 const WECHAT = "Ayachinene00721";
 const navigation = [
+  ["#scenarios", "适用场景"],
   ["#delivery", "交付方式"],
   ["#method", "工作方式"],
   ["#boundary", "信任边界"],
+];
+const audiences = [
+  {
+    title: "供应商提交前自查",
+    description: "在发给客户之前，先把需要补充和确认的内容理清。",
+    icon: ClipboardText,
+    points: [
+      ["查材料缺项", "核对项目材料，整理待补文件与证据，明确下一步需要准备什么。"],
+      ["核对跨文档一致性", "关联图纸、控制计划与质量记录，提前检查零件、修订、特征和工序信息的差异。"],
+      ["带着原件补充说明", "沿页码、坐标或单元格找到问题出处，让工程师确认疑点并留下补充依据。"],
+    ],
+  },
+  {
+    title: "客户质量团队审核",
+    description: "收到资料后，沿着证据核验，把精力放在需要判断的问题上。",
+    icon: ShieldCheck,
+    points: [
+      ["追溯每个问题", "从问题清单回到来源材料，核对记录、规格与实测信息的对应关系。"],
+      ["集中复核疑点", "查看缺项、冲突与待确认内容，结合原始证据作出工程判断。"],
+      ["保留审核交接依据", "记录确认、驳回与补充说明，导出审核报告和问题清单，方便后续交接。"],
+    ],
+  },
 ];
 const workflows = [
   {
@@ -54,7 +77,7 @@ const workflows = [
   {
     title: "核对差异",
     description: "让缺项和冲突，带着来源浮出水面。",
-    body: "检查材料完整性与跨文档一致性。处理阶段通过契约检查和持久化状态复算，未决问题进入复核。",
+    body: "检查材料缺项、版本差异与跨文档冲突，带着原件位置形成问题清单。证据不完整的内容保留待复核。",
     icon: Fingerprint,
     nodes: ["缺失材料", "版本差异", "数据冲突"],
     result: "形成可定位的问题清单",
@@ -99,6 +122,10 @@ const deliveries = [
 ];
 const questions = [
   [
+    "供应商可以在提交给客户前使用吗？",
+    "可以。供应商可先核对材料缺项与跨文档一致性，沿来源位置确认疑点，整理待补证据和说明，再用于内部复核与提交沟通。这样，双方可以围绕具体问题和原件讨论，减少重复翻找与解释。",
+  ],
+  [
     "可以完全离线使用吗？",
     "可以采用内网部署。完全离线运行时，模型服务也需要部署在企业内网；工作台本身不包含大模型权重。具体配置可在演示时结合现有环境确认。",
   ],
@@ -112,7 +139,7 @@ const questions = [
   ],
   [
     "现在如何了解产品？",
-    "本网站用于产品介绍。通过“预约演示”添加微信，说明材料类型、审核流程和部署需求，即可沟通适合的产品演示与交付方案。",
+    "本网站用于产品介绍。通过“预约演示”添加微信，说明你关注提交前自查还是客户审核，以及材料类型和部署需求，即可沟通适合的产品演示与交付方案。",
   ],
 ];
 
@@ -364,7 +391,7 @@ function App() {
               每一份 PPAP，<span>都有据可审。</span>
             </h1>
             <p className="hero-description">
-              连接图纸、控制计划与质量记录，定位缺项和跨文档冲突，让审核回到工程证据。
+              支持供应商提交前自查与客户审核，连接图纸、控制计划与质量记录，让缺项和差异有据可查。
             </p>
             <div className="hero-actions">
               {primaryButton()}
@@ -403,6 +430,46 @@ function App() {
             <span>尺寸结果</span>
           </div>
         </div>
+        <section
+          className="audience-section section-space container"
+          id="scenarios"
+          aria-labelledby="audience-title"
+        >
+          <div className="section-heading">
+            <h2 id="audience-title">
+              提交前先理清，
+              <br />
+              审核时少往返。
+            </h2>
+            <p>同一套资料核验与证据追溯能力，支持提交与审核的两端。</p>
+          </div>
+          <div className="audience-grid">
+            {audiences.map(({ title, description, icon: AudienceIcon, points }) => (
+              <article className="audience-lane" key={title}>
+                <div className="audience-heading">
+                  <AudienceIcon size={27} aria-hidden="true" />
+                  <h3>{title}</h3>
+                </div>
+                <p className="audience-description">{description}</p>
+                <ul className="audience-points">
+                  {points.map(([name, body]) => (
+                    <li key={name}>
+                      <strong>{name}</strong>
+                      <p>{body}</p>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+          <div className="audience-handoff">
+            <GitBranch size={27} aria-hidden="true" />
+            <p>
+              <strong>让沟通落到具体证据上。</strong>
+              把问题、原件位置和补充说明放在一起，减少来回定位与重复解释。
+            </p>
+          </div>
+        </section>
         <section
           className="capabilities section-space container"
           aria-labelledby="capability-title"
@@ -522,7 +589,7 @@ function App() {
                   <br />
                   再开始判断。
                 </h2>
-                <p>从一份材料开始，走完一条可以复核的审核路径。</p>
+                <p>从材料准备到审核交接，走完一条可以复核的证据路径。</p>
               </div>
             </Reveal>
             <div className="workflow-layout">
@@ -719,7 +786,7 @@ function App() {
                 从清晰的证据开始。
               </h2>
               <p>
-                聊聊你的材料、审核流程与部署环境。
+                聊聊你的提交准备、审核流程与部署环境。
                 <br />
                 我们一起找到合适的使用方式。
               </p>
@@ -772,9 +839,9 @@ function App() {
         <span className="feature-icon">
           <ClipboardText size={26} />
         </span>
-        <h2 id="contact-dialog-title">聊聊你的 PPAP 审核。</h2>
+        <h2 id="contact-dialog-title">聊聊你的 PPAP 自查与审核。</h2>
         <p id="contact-dialog-description">
-          添加微信，告诉我们材料类型、审核流程和部署需求，我们会与你沟通演示安排。
+          添加微信，告诉我们你关注提交前自查还是客户审核，以及材料类型和部署需求，我们会与你沟通演示安排。
         </p>
         <div className="wechat-card">
           <span>联系微信</span>
